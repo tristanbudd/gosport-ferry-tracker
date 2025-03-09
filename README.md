@@ -29,6 +29,6 @@ Gosport Ferry Tracker is an open source project allowing users to track the Gosp
 ## Installation
 1. Install the latest release: [Click Here](https://github.com/tristanbudd/gosport-ferry-tracker/releases/ "Click Here")
 2. Create a .env file and add the field: ```AISSTREAM_API_KEY=[Your AISStream API Key Here]``` (https://aisstream.io/)
-3. Install all node dependancies and run the serverside code: ```node server.js```
+3. Install all node dependencies and run the serverside code: ```node server.js```
 4. Wait up to 10 minutes for data to fully populate, it will become more reliable the longer it runs.
 5. Access the index.html and the website should be fully operational.
