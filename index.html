@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head -->
+<head>
+    <title>Gosport Ferry Tracker</title>
+
+    <meta name="description" content="Gosport Ferry Tracker is an open source project allowing users to track the Gosport Ferry and view useful status information before their arrival.">
+    <meta name="keywords" content=") ?>">
+
+    <meta name="abstract" content="Gosport Ferry Tracker | Up-To-Date Timetabling | Status Information">
+    <meta name="summary" content="Gosport Ferry Tracker | Up-To-Date Timetabling | Status Information">
+    <meta name="classification" content="Gosport Ferry Tracker | Up-To-Date Timetabling | Status Information">
+
+    <meta name="language" content="en">
+    <meta name="country" content="en">
+
+    <meta name="owner" content="Tristan Budd | contact@tristanbudd.com">
+    <meta name="author" content="Tristan Budd | contact@tristanbudd.com">
+    <meta name="designer" content="Tristan Budd | contact@tristanbudd.com">
+    <meta name="publisher" content="Tristan Budd | contact@tristanbudd.com">
+    <meta name="web_author" content="Tristan Budd | contact@tristanbudd.com">
+
+    <meta name="reply-to" content="contact@tristanbudd.com">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="revisit-after" content="7 days">
+    <meta name="coverage" content="Worldwide">
+    <meta name="distribution" content="Global">
+    <meta name="rating" content="general">
+    <meta name="target" content="all">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gosport Ferry Tracker">
+    <meta name="twitter:description" content="Gosport Ferry Tracker is an open source project allowing users to track the Gosport Ferry and view useful status information before their arrival.">
+    <meta name="twitter:image" content="/img/logo_cover.jpg">
+
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="/favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/override.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+<!-- End Head -->
+
+<body>
+    <!-- Main Content -->
+    <header>
+        <img src="/img/logo.png" alt="Gosport Ferry Tracker Logo">
+        <h1>Gosport Ferry Tracker</h1>
+        <p>Up-To-Date Timetabling | Status Information</p>
+    </header>
+
+    <div class="container-body">
+        <div class="main-content">
+            <div class="status-message" id="status-message-colour">
+                <p id="status-message">Loading Status...</p>
+            </div>
+            <div class="left-column">
+                <div class="service-status large-widget">
+                    <div class="large-widget-header">
+                        <h2>Service Status</h2>
+                    </div>
+                    <div class="large-widget-body">
+                        <h2>Current Position</h2>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 50%"><div class="progress-bar-icon"><img id="direction-arrow" src="icons/ferry.svg" alt="Ferry Icon"></div></div>
+                        </div>
+                        <div class="progress-bar-labels">
+                            <div class="progress-bar-label">
+                                <h3>Gosport Harbour</h3>
+                                <p id="eta-gosport">ETA: Loading...</p>
+                            </div>
+                            <div class="progress-bar-label" style="text-align: right">
+                                <h3>Portsmouth Harbour</h3>
+                                <p id="eta-portsmouth">ETA: Loading...</p>
+                            </div>
+                        </div>
+                        <h2>Next Ferries</h2>
+                        <div class="progress-info">
+                            <div class="progress-info-tab">
+                                <div class="next-ferries-widget">
+                                    <div class="next-ferries-header">
+                                        <h2>Next Ferry: Gosport</h2>
+                                    </div>
+                                    <div class="next-ferries-body">
+                                        <p id="next-gosport">Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="progress-info-tab">
+                                <div class="next-ferries-widget">
+                                    <div class="next-ferries-header">
+                                        <h2>Next Ferry: Portsmouth</h2>
+                                    </div>
+                                    <div class="next-ferries-body">
+                                        <p id="next-portsmouth">Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timetable large-widget">
+                    <div class="large-widget-header">
+                        <h2>Timetable</h2>
+                    </div>
+                    <div class="large-widget-body">
+                        <h2 id="timetable-loading">Loading...</h2>
+                        <div id="timetable_grid" class="timetable-grid">
+                            <div class="timetable-widget">
+                                <div class="timetable-header">
+                                    <h2>Next Ferry</h2>
+                                </div>
+                                <div class="timetable-body">
+                                    <p id="next-ferry">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="current-service">
+                    <div class="widget-header">
+                        <h2>Current Service</h2>
+                    </div>
+                    <div class="widget-body">
+                        <ul>
+                            <li id="current-vessel"><b>Current Vessel:</b><br>Loading...</li>
+                            <br>
+                            <li id="current-heading"><b>Current Heading: Loading...</b></li>
+                            <li id="current-speed"><b>Current Speed: Loading...</b></li>
+                            <br>
+                            <li id="current-location"><b>Current Location:</b><br>Loading...</li>
+                            <br>
+                            <li id="distance-from-gosport"><b>Distance from Gosport:</b><br>Loading...</li>
+                            <li id="distance-from-portsmouth"><b>Distance from Portsmouth:</b><br>Loading...</li>
+                        </ul>
+                    </div>
+                    <div class="widget-footer">
+                        <a href="service-log.html">View Service Log</a>
+                    </div>
+                </div>
+                <div class="vessel-details">
+                    <div class="widget-header">
+                        <h2>Vessel Details</h2>
+                    </div>
+                    <div class="widget-body">
+                        <ul>
+                            <li id="vessel-details">Loading...</li>
+                        </ul>
+                    </div>
+                    <div class="widget-footer">
+                        <a href="https://gosportferry.co.uk/about-us/our-ferries/" target="_blank">View Official Site</a>
+                    </div>
+                </div>
+                <div class="ais-tracker">
+                    <div class="widget-header">
+                        <h2>AIS Tracker</h2>
+                    </div>
+                    <div class="widget-body">
+                        <ul>
+                            <li id="ais-status"><b>Status:</b> Loading...</li>
+                            <br>
+                            <li id="last-log"><b>Last Log:</b> Loading...</li>
+                            <li id="average-update"><b>Average Update:</b> Loading...</li>
+                        </ul>
+                    </div>
+                    <div class="widget-footer">
+                        <a href="tracker-log.html">View Tracker Log</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Website developed by Tristan Budd</p>
+        <a href="https://github.com/tristanbudd/gosport-ferry-tracker">View the project on GitHub</a>
+    </footer>
+    <!-- End Main Content -->
+    
+    <!-- Importing JavaScript -->
+    <script type="text/javascript" rel="javascript" src="/js/index.js"></script>
+    <!-- End Importing JavaScript -->
+    </body>
+</html>
