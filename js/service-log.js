@@ -1,6 +1,6 @@
 // Function to get all service logs to display frontend.
 function get_all_service_logs() {
-    return fetch("service_log.json")
+    return fetch("/data/service_log.json")
         .then(response => response.text())
         .then(data => {
             try {

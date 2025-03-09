@@ -1,6 +1,6 @@
 // Function to get tracker logs to display frontend.
 function get_all_traffic_logs() {
-    return fetch("tracker_log.json")
+    return fetch("/data/tracker_log.json")
         .then(response => response.text())
         .then(data => {
             try {

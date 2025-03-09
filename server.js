@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const WebSocket = require("ws");
 const fs = require("fs");
+const path = require("path");
 
 const gosport_lon_lat = [50.79474742, -1.11615382];
 const portsmouth_lon_lat = [50.79708898, -1.10929834];
@@ -15,7 +16,15 @@ function haversine_distance(long1, lat1, long2, lat2) {
     return earth_radius * c;
 }
 
-const service_log_file = "service_log.json";
+const dataDir = path.join(__dirname, "data");
+if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir);
+}
+
+const service_log_file = path.join(dataDir, "service_log.json");
+const timetable_file = path.join(dataDir, "timetable.json");
+const tracker_log_file = path.join(dataDir, "tracker_log.json");
+
 let last_log_time = { gosport: 0, portsmouth: 0 };
 const log_interval = 10 * 60 * 1000; // 10 minutes in milliseconds
 
@@ -35,7 +44,11 @@ function log_service_event(port_name, distance) {
                 return;
             }
 
-            let lines = data.split("\n").filter(line => line.trim() !== "");
+            let lines = [];
+            if (data.trim() !== "") {
+                lines = data.split("\n").filter(line => line.trim() !== "");
+            }
+
             if (lines.length >= 100) {
                 lines.shift();
             }
@@ -50,8 +63,6 @@ function log_service_event(port_name, distance) {
     }
 }
 
-const timetable_file = "timetable.json";
-
 function update_timetable(port_name, current_time) {
     fs.readFile(timetable_file, "utf8", (err, data) => {
         if (err && err.code !== 'ENOENT') {
@@ -60,8 +71,14 @@ function update_timetable(port_name, current_time) {
         }
 
         let timetable = { gosport: [], portsmouth: [] };
-        if (!err) {
-            timetable = JSON.parse(data);
+
+        if (data.trim() !== "") {
+            try {
+                timetable = JSON.parse(data);
+            } catch (e) {
+                console.error("Error | JSON parse error:", e.message);
+                return;
+            }
         }
 
         timetable[port_name] = [];
@@ -98,22 +115,33 @@ function websocket_connect() {
     socket.onmessage = function(event) {
         let ais_message = JSON.parse(event.data);
 
-        fs.readFile("tracker_log.json", "utf8", (err, data) => {
+        fs.readFile(tracker_log_file, "utf8", (err, data) => {
             if (err) {
                 console.error("Error | File read error:", err);
                 return;
             }
 
-            let lines = data.split("\n").filter(line => line.trim() !== "");
+            let lines = [];
+            if (data.trim() !== "") {
+                lines = data.split("\n").filter(line => line.trim() !== "");
+            }
+
             if (lines.length >= 100) {
                 lines.shift();
             }
-            lines.push(JSON.stringify(ais_message));
 
-            fs.writeFile("tracker_log.json", lines.join("\n") + "\n", (err) => {
-                if (err) console.error("Error | File write error:", err);
-            });
+            try {
+                let ais_message = JSON.parse(event.data);
+                lines.push(JSON.stringify(ais_message));
+
+                fs.writeFile(tracker_log_file, lines.join("\n") + "\n", (err) => {
+                    if (err) console.error("Error | File write error:", err);
+                });
+            } catch (e) {
+                console.error("Error | JSON parse error:", e.message);
+            }
         });
+
 
         let position_report = ais_message["Message"]["PositionReport"];
         let ship_lon = position_report["Longitude"];

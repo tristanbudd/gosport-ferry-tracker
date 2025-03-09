@@ -54,7 +54,7 @@ function haversine_distance(long1, lat1, long2, lat2) {
 
 // Function to get tracker logs to display frontend.
 function get_all_traffic_logs() {
-    return fetch("tracker_log.json")
+    return fetch("/data/tracker_log.json")
         .then(response => response.text())
         .then(data => {
             try {
@@ -76,32 +76,13 @@ function get_traffic_log(index) {
     return get_all_traffic_logs().then(logs => logs[logs.length - 1 - index]);
 }
 
-// Function to get all service logs to display frontend.
-function get_all_service_logs() {
-    return fetch("service_log.json")
-        .then(response => response.text())
-        .then(data => {
-            try {
-                let logs = data.split("\n").filter(line => line.trim() !== "");
-                return logs.map(log => JSON.parse(log));
-            } catch (error) {
-                console.error("Error | Invalid JSON data:", error);
-                return [];
-            }
-        })
-        .catch(error => {
-            console.error("Error | File read error:", error);
-            return [];
-        });
-}
-
 // Get the timetable for the ferries.
 function get_timetable() {
-    return fetch("timetable.json")
+    return fetch("/data/timetable.json")
         .then(response => response.json())
         .catch(error => {
             console.error("Error | File read error:", error);
-            return {};
+            return { gosport: [], portsmouth: [] };
         });
 }
 
@@ -114,32 +95,32 @@ function format_time(time) {
 
 // Upon page load and every 5 seconds, update the tracker with up-to-date information.
 document.addEventListener("DOMContentLoaded", function () {
-    const status_message = document.getElementById("status-message");
-    const status_message_colour = document.getElementById("status-message-colour");
-    const ais_status = document.getElementById("ais-status");
-    const last_log = document.getElementById("last-log");
-    const average_update = document.getElementById("average-update");
-    const current_vessel = document.getElementById("current-vessel");
-    const current_heading = document.getElementById("current-heading");
-    const current_speed = document.getElementById("current-speed");
-    const current_location = document.getElementById("current-location");
-    const distance_from_gosport = document.getElementById("distance-from-gosport");
-    const distance_from_portsmouth = document.getElementById("distance-from-portsmouth");
-    const vessel_details = document.getElementById("vessel-details");
-    const progress_bar_fill = document.getElementById("progress-bar-fill");
-    const direction_arrow = document.getElementById("direction-arrow");
-    const eta_gosport = document.getElementById("eta-gosport");
-    const eta_portsmouth = document.getElementById("eta-portsmouth");
-    const next_gosport = document.getElementById("next-gosport");
-    const next_portsmouth = document.getElementById("next-portsmouth");
-    const timetable_loading = document.getElementById("timetable-loading");
-
     function update_tracker() {
         get_traffic_log(0).then(latest_log => {
             if (!latest_log) {
                 console.warn("Warning | No data found for the latest log.");
                 return;
             }
+
+            const status_message = document.getElementById("status-message");
+            const status_message_colour = document.getElementById("status-message-colour");
+            const ais_status = document.getElementById("ais-status");
+            const last_log = document.getElementById("last-log");
+            const average_update = document.getElementById("average-update");
+            const current_vessel = document.getElementById("current-vessel");
+            const current_heading = document.getElementById("current-heading");
+            const current_speed = document.getElementById("current-speed");
+            const current_location = document.getElementById("current-location");
+            const distance_from_gosport = document.getElementById("distance-from-gosport");
+            const distance_from_portsmouth = document.getElementById("distance-from-portsmouth");
+            const vessel_details = document.getElementById("vessel-details");
+            const progress_bar_fill = document.getElementById("progress-bar-fill");
+            const direction_arrow = document.getElementById("direction-arrow");
+            const eta_gosport = document.getElementById("eta-gosport");
+            const eta_portsmouth = document.getElementById("eta-portsmouth");
+            const next_gosport = document.getElementById("next-gosport");
+            const next_portsmouth = document.getElementById("next-portsmouth");
+            const timetable_loading = document.getElementById("timetable-loading");
 
             let message_timestamp = latest_log["MetaData"]["time_utc"];
             let time_difference = Math.floor((Date.now() - new Date(message_timestamp).getTime()) / 1000);
@@ -218,8 +199,18 @@ document.addEventListener("DOMContentLoaded", function () {
             distance_from_portsmouth.innerHTML = `<b>Distance from Portsmouth:</b> ${Math.round(portsmouth_distance_metres)}m`;
 
             get_timetable().then(timetable => {
-                let next_gosport_time = timetable["gosport"][0];
-                let next_portsmouth_time = timetable["portsmouth"][0];
+                if (!timetable.gosport || !timetable.portsmouth) {
+                    console.error("Error | Timetable data is missing.");
+                    return;
+                }
+
+                let next_gosport_time = timetable.gosport[0];
+                let next_portsmouth_time = timetable.portsmouth[0];
+
+                if (!next_gosport_time || !next_portsmouth_time) {
+                    console.error("Error | Timetable data is incomplete.");
+                    return;
+                }
 
                 let after_gosport_time = timetable["gosport"][1];
                 let after_portsmouth_time = timetable["portsmouth"][1];
