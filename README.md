@@ -19,10 +19,12 @@ Some of the key features of the tracker:
 - Calculate an average crossing time for more accurate time estimations.
 
 ## Screenshots
-![Preview Image #1](https://github.com/user-attachments/assets/c1463a60-5e4a-4985-818e-bd6824f6eb44)
-![Preview Image #2](https://github.com/user-attachments/assets/83a1a5ad-f56f-4d7f-885f-65c1fb928477)
-![Preview Image #3](https://github.com/user-attachments/assets/a6e8a4aa-9b2c-46c9-8cbb-ff5d5b15b8f7)
-![Preview Image #4](https://github.com/user-attachments/assets/ddf7c734-4131-49be-842e-3075c8579f3e)
+### Main Page
+![Preview Image #1](https://github.com/user-attachments/assets/5e64adf1-a1e5-409d-9d0a-aa6567fc60ca)
+### Service Log Page
+![Preview Image #2](https://github.com/user-attachments/assets/a6e8a4aa-9b2c-46c9-8cbb-ff5d5b15b8f7)
+### Tracking Log Page
+![Preview Image #3](https://github.com/user-attachments/assets/ddf7c734-4131-49be-842e-3075c8579f3e)
 
 ## Installation
 1. Install the latest release: [Click Here](https://github.com/tristanbudd/gosport-ferry-tracker/releases/ "Click Here")
