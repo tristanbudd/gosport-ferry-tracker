@@ -4,7 +4,7 @@
 ## What is this for?
 Gosport Ferry Tracker is an open source project allowing users to track the Gosport Ferry and view useful status information before their arrival.
 
-Some of the key features of the tracker:
+**Some of the key features of the tracker:**
 - Utilise AIS Ship Tracking tools to calculate the position of the Gosport Ferry.
 - Predict the upcoming timetables of incoming / outgoing ships.
 - View tracking logs and download data for analysis.
