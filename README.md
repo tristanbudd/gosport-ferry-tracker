@@ -1,6 +1,9 @@
 # Gosport Ferry Tracker
 ![](https://img.shields.io/github/stars/tristanbudd/gosport-ferry-tracker.svg) ![](https://img.shields.io/github/forks/tristanbudd/gosport-ferry-tracker.svg) ![](https://img.shields.io/github/tag/tristanbudd/gosport-ferry-tracker.svg) ![](https://img.shields.io/github/release/tristanbudd/gosport-ferry-tracker.svg) ![](https://img.shields.io/github/issues/tristanbudd/gosport-ferry-tracker.svg)
 
+> [!NOTE]
+> The website preview does not have real-time data as I am not currently hosting the api. Therefore will only show a preview and outdated information for now.
+
 ## What is this for?
 Gosport Ferry Tracker is an open source project allowing users to track the Gosport Ferry and view useful status information before their arrival.
 
