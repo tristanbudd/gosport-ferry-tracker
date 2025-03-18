@@ -102,7 +102,7 @@ function websocket_connect() {
 
     socket.onopen = function() {
         let subscription_message = {
-            Apikey: process.env.AISSTREAM_API_KEY,
+            Apikey: process.env.no,
             BoundingBoxes: [[[-90, -180], [90, 180]]],
             FiltersShipMMSI: ["235109129", "235001314", "235024149"],
             FilterMessageTypes: ["PositionReport"]
@@ -114,6 +114,11 @@ function websocket_connect() {
 
     socket.onmessage = function(event) {
         let ais_message = JSON.parse(event.data);
+
+        if (!ais_message["Message"] || !ais_message["Message"]["PositionReport"]) {
+            console.error("Error | Missing PositionReport:", JSON.stringify(ais_message));
+            return;
+        }
 
         fs.readFile(tracker_log_file, "utf8", (err, data) => {
             if (err) {
@@ -131,7 +136,6 @@ function websocket_connect() {
             }
 
             try {
-                let ais_message = JSON.parse(event.data);
                 lines.push(JSON.stringify(ais_message));
 
                 fs.writeFile(tracker_log_file, lines.join("\n") + "\n", (err) => {
@@ -141,7 +145,6 @@ function websocket_connect() {
                 console.error("Error | JSON parse error:", e.message);
             }
         });
-
 
         let position_report = ais_message["Message"]["PositionReport"];
         let ship_lon = position_report["Longitude"];
