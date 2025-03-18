@@ -102,7 +102,7 @@ function websocket_connect() {
 
     socket.onopen = function() {
         let subscription_message = {
-            Apikey: process.env.no,
+            Apikey: process.env.AISSTREAM_API_KEY,
             BoundingBoxes: [[[-90, -180], [90, 180]]],
             FiltersShipMMSI: ["235109129", "235001314", "235024149"],
             FilterMessageTypes: ["PositionReport"]
