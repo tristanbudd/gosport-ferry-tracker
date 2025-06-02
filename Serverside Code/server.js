@@ -9,16 +9,26 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 3000;
+const cors = require('cors');
 
+// Replace this with your site if you are hosting yourself.
+app.use(cors({
+  origin: 'https://ferrytracker.tristanbudd.com'
+}));
+
+// Serve static files from /public
 app.use('/ferrytracker', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   res.send('Gosport Ferry Tracker API is running');
 });
 
+// Start server listening on the port Passenger gives us
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+/* Your existing WebSocket code here, but without listening on another port */
 
 const gosport_lon_lat = [50.79474742, -1.11615382];
 const portsmouth_lon_lat = [50.79708898, -1.10929834];
@@ -28,9 +38,9 @@ function haversine_distance(long1, lat1, long2, lat2) {
   let delta_lat = (lat2 - lat1) * Math.PI / 180;
   let delta_long = (long2 - long1) * Math.PI / 180;
   let a = Math.sin(delta_lat / 2) ** 2 +
-          Math.cos(lat1 * Math.PI / 180) *
-          Math.cos(lat2 * Math.PI / 180) *
-          Math.sin(delta_long / 2) ** 2;
+      Math.cos(lat1 * Math.PI / 180) *
+      Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(delta_long / 2) ** 2;
   let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return earth_radius * c;
 }
