@@ -38,6 +38,11 @@ const ship_details = {
     }
 };
 
+// Replace these URLs with your own if hosting the data yourself.
+const service_log_url = "https://api.tristanbudd.com/ferrytracker/data/service_log.json"; // Replace this URL if hosting the data yourself
+const timetable_url = "https://api.tristanbudd.com/ferrytracker/data/timetable.json"; // Replace this URL if hosting the data yourself
+const tracker_log_url = "https://api.tristanbudd.com/ferrytracker/data/tracker_log.json"; // Replace this URL if hosting the data yourself
+
 // Positions of the two harbours.
 const gosport_lon_lat = [50.79474742, -1.11615382];
 const portsmouth_lon_lat = [50.79708898, -1.10929834];
@@ -54,7 +59,7 @@ function haversine_distance(long1, lat1, long2, lat2) {
 
 // Function to get tracker logs to display frontend.
 function get_all_traffic_logs() {
-    return fetch("/data/tracker_log.json")
+    return fetch(tracker_log_url)
         .then(response => response.text())
         .then(data => {
             try {
@@ -78,7 +83,7 @@ function get_traffic_log(index) {
 
 // Get the timetable for the ferries.
 function get_timetable() {
-    return fetch("/data/timetable.json")
+    return fetch(timetable_url)
         .then(response => response.json())
         .catch(error => {
             console.error("Error | File read error:", error);

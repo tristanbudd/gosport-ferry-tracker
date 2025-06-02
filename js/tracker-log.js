@@ -1,6 +1,9 @@
+// External URL for hosted tracker logs
+const tracker_log_url = "https://api.tristanbudd.com/ferrytracker/data/tracker_log.json"; // Replace this URL if hosting the data yourself
+
 // Function to get tracker logs to display frontend.
 function get_all_traffic_logs() {
-    return fetch("/data/tracker_log.json")
+    return fetch(tracker_log_url)
         .then(response => response.text())
         .then(data => {
             try {

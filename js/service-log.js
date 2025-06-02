@@ -1,6 +1,9 @@
+// External URL for hosted service logs
+const service_log_url = "https://api.tristanbudd.com/ferrytracker/data/service_log.json"; // Replace this URL if hosting the data yourself
+
 // Function to get all service logs to display frontend.
 function get_all_service_logs() {
-    return fetch("/data/service_log.json")
+    return fetch(service_log_url)
         .then(response => response.text())
         .then(data => {
             try {
